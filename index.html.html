@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cooperativa Wansati Wachonga — Costurando Sonhos, Tecendo Autonomia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#EDE6D6;
+    --canvas-deep:#E3D9C2;
+    --ink:#241F1A;
+    --indigo:#1D3557;
+    --magenta:#B93368;
+    --ochre:#D98A22;
+    --green:#3C6E47;
+    --thread: var(--magenta);
+    --max: 1180px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Archivo', sans-serif;
+    line-height:1.55;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  h1,h2,h3{
+    font-family:'Bricolage Grotesque', sans-serif;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--indigo);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px; height:2px;
+    background:var(--thread);
+    display:inline-block;
+  }
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--indigo);
+    outline-offset:3px;
+  }
+
+  /* ---------- Textile pattern helpers ---------- */
+  .capulana-pattern{
+    background-image:
+      radial-gradient(circle at 50% 50%, var(--ochre) 0 6px, transparent 7px),
+      repeating-linear-gradient(45deg, var(--indigo) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, var(--magenta) 0 2px, transparent 2px 22px);
+    background-size: 44px 44px, 44px 44px, 44px 44px;
+    background-position: 0 0, 0 0, 0 0;
+  }
+
+  /* Stitch divider */
+  .stitch-divider{
+    width:100%;
+    height:24px;
+    overflow:hidden;
+  }
+  .stitch-divider svg{ width:100%; height:100%; display:block; }
+  .stitch-path{
+    stroke:var(--thread);
+    stroke-width:3;
+    stroke-dasharray:10 9;
+    fill:none;
+    stroke-linecap:round;
+    stroke-dashoffset:1000;
+    animation:sew 2.4s ease-out forwards;
+  }
+  @keyframes sew{ to{ stroke-dashoffset:0; } }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(237,230,214,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(36,31,26,0.12);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+    max-width:var(--max); margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px;
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-weight:700; font-size:1.05rem;
+  }
+  .brand-mark{
+    width:34px; height:34px; flex-shrink:0;
+  }
+  .nav-links{
+    display:flex; gap:28px; align-items:center;
+    font-size:0.92rem; font-weight:600;
+    list-style:none;
+  }
+  .nav-links a{ text-decoration:none; position:relative; padding:4px 0;}
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px;
+    background:var(--thread); transition:width 0.25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-cta{
+    background:var(--indigo); color:var(--canvas);
+    padding:10px 18px; border-radius:2px;
+    text-decoration:none; font-weight:700; font-size:0.88rem;
+    font-family:'Space Mono', monospace;
+    letter-spacing:0.03em;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{ background:var(--magenta); }
+  .menu-btn{ display:none; background:none; border:none; font-size:1.6rem; cursor:pointer; color:var(--ink); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:72px 0 40px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 4.6vw, 3.8rem);
+    margin:18px 0 22px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--magenta);
+  }
+  .hero p.lede{
+    font-size:1.12rem;
+    max-width:46ch;
+    color:#3a352d;
+    margin-bottom:30px;
+  }
+  .cta-row{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 24px;
+    text-decoration:none;
+    font-weight:700; font-size:0.95rem;
+    border-radius:2px;
+    border:2px solid var(--indigo);
+    transition:transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .btn-solid{ background:var(--indigo); color:var(--canvas); }
+  .btn-solid:hover{ background:var(--ink); border-color:var(--ink); transform:translateY(-2px);}
+  .btn-ghost{ background:transparent; color:var(--indigo); }
+  .btn-ghost:hover{ background:var(--indigo); color:var(--canvas); transform:translateY(-2px);}
+
+  .hero-visual{
+    aspect-ratio:1/1.05;
+    border-radius:4px;
+    position:relative;
+    border:3px solid var(--ink);
+    overflow:hidden;
+  }
+  .hero-visual img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .hero-visual::after{
+    content:"";
+    position:absolute; inset:14px;
+    border:1.5px dashed rgba(237,230,214,0.65);
+    pointer-events:none;
+  }
+  .hero-visual .tag{
+    position:absolute; bottom:-16px; left:24px;
+    background:var(--canvas);
+    border:2px solid var(--ink);
+    padding:10px 16px;
+    font-family:'Space Mono', monospace;
+    font-size:0.76rem;
+    letter-spacing:0.04em;
+  }
+
+  section{ padding:76px 0; }
+  .section-head{ margin-bottom:40px; max-width:60ch; }
+  .section-head h2{ font-size:clamp(1.8rem, 3vw, 2.6rem); margin-top:14px; }
+
+  /* ---------- Sobre / Timeline ---------- */
+  .about-grid{
+    display:grid; grid-template-columns:0.95fr 1.05fr; gap:64px;
+  }
+  .about-grid p + p{ margin-top:16px; }
+  .timeline{ list-style:none; border-left:2px dashed rgba(36,31,26,0.35); padding-left:28px; }
+  .timeline li{ position:relative; padding-bottom:30px; }
+  .timeline li:last-child{ padding-bottom:0; }
+  .timeline li::before{
+    content:""; position:absolute; left:-34px; top:4px;
+    width:12px; height:12px; border-radius:50%;
+    background:var(--ochre); border:2px solid var(--ink);
+  }
+  .timeline .yr{
+    font-family:'Space Mono', monospace; font-weight:700; color:var(--indigo);
+    font-size:0.85rem; display:block; margin-bottom:4px;
+  }
+
+  /* ---------- Pilares ---------- */
+  .pillars{
+    display:grid; grid-template-columns:1fr 1fr; gap:28px;
+  }
+  .pillar-card{
+    background:var(--canvas-deep);
+    border:2px solid var(--ink);
+    padding:36px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+  .pillar-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:6px;
+  }
+  .pillar-card.p1::before{ background:var(--magenta); }
+  .pillar-card.p2::before{ background:var(--ochre); }
+  .pillar-icon{ width:46px; height:46px; margin-bottom:18px; }
+  .pillar-photo{
+    width:100%; aspect-ratio:16/10;
+    object-fit:cover;
+    border:2px solid var(--ink);
+    margin-bottom:18px;
+    display:block;
+  }
+  .pillar-card h3{ font-size:1.4rem; margin-bottom:12px; }
+  .pillar-card p{ color:#3a352d; margin-bottom:16px; }
+  .pillar-list{ list-style:none; font-size:0.92rem; }
+  .pillar-list li{ padding-left:20px; position:relative; margin-bottom:8px; }
+  .pillar-list li::before{
+    content:"×"; position:absolute; left:0; color:var(--magenta); font-weight:700;
+  }
+
+  /* ---------- Impacto ---------- */
+  .impact-strip{
+    background:var(--indigo); color:var(--canvas);
+    border-radius:4px;
+    padding:48px 40px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:24px;
+  }
+  .impact-item .num{
+    font-family:'Space Mono', monospace; font-weight:700;
+    font-size:2.1rem; color:var(--ochre);
+    display:block; margin-bottom:6px;
+  }
+  .impact-item .lbl{ font-size:0.85rem; opacity:0.9; }
+
+  /* ---------- Parceiros ---------- */
+  .partners-row{
+    display:flex; flex-wrap:wrap; gap:16px;
+  }
+  .partner-badge{
+    border:1.5px solid rgba(36,31,26,0.4);
+    padding:12px 20px;
+    font-family:'Space Mono', monospace;
+    font-size:0.85rem;
+    letter-spacing:0.02em;
+    border-radius:2px;
+  }
+
+  /* ---------- Equipa ---------- */
+  .team-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:24px;
+  }
+  .team-card{ text-align:left; }
+  .avatar{
+    width:100%; aspect-ratio:1/1;
+    border:2px solid var(--ink);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-weight:700; font-size:1.6rem;
+    margin-bottom:16px;
+    color:var(--canvas);
+  }
+  .team-card h4{ font-family:'Bricolage Grotesque', sans-serif; font-size:1.05rem; margin-bottom:4px;}
+  .team-card .role{ font-size:0.82rem; color:var(--magenta); font-weight:600; }
+
+  /* ---------- Contacto ---------- */
+  .contact-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:56px;
+  }
+  .contact-card{
+    background:var(--canvas-deep);
+    border:2px solid var(--ink);
+    padding:36px;
+  }
+  .contact-card dt{
+    font-family:'Space Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--indigo);
+    margin-top:20px;
+  }
+  .contact-card dt:first-child{ margin-top:0; }
+  .contact-card dd{ font-size:1rem; margin-top:4px; }
+  .social-row{ display:flex; gap:14px; margin-top:24px; }
+  .social-pill{
+    border:2px solid var(--ink);
+    padding:10px 18px;
+    text-decoration:none;
+    font-weight:700; font-size:0.88rem;
+    border-radius:20px;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .social-pill:hover{ background:var(--ink); color:var(--canvas); }
+
+  footer{
+    padding:34px 0 40px;
+    text-align:center;
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    color:#5a5348;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid, .about-grid, .contact-grid{ grid-template-columns:1fr; }
+    .hero-visual{ order:-1; max-width:340px; margin:0 auto; }
+    .pillars{ grid-template-columns:1fr; }
+    .impact-strip{ grid-template-columns:1fr 1fr; }
+    .team-grid{ grid-template-columns:1fr 1fr; }
+    .nav-links{
+      position:fixed; top:68px; left:0; right:0;
+      background:var(--canvas); flex-direction:column;
+      padding:24px 28px; gap:20px;
+      border-bottom:1px solid rgba(36,31,26,0.12);
+      transform:translateY(-130%);
+      transition:transform 0.3s ease;
+    }
+    .nav-links.open{ transform:translateY(0); }
+    .menu-btn{ display:block; }
+    .nav-cta{ display:none; }
+  }
+  @media (max-width:560px){
+    .impact-strip{ grid-template-columns:1fr 1fr; padding:32px 24px; }
+    .team-grid{ grid-template-columns:1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <div class="brand">
+      <img src="logo.jpg" alt="Logótipo Cooperativa Wansati Wachonga" class="brand-mark" style="border-radius:50%; object-fit:cover;">
+      <span>Wansati Wachonga</span>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#sobre">Sobre nós</a></li>
+      <li><a href="#pilares">O que fazemos</a></li>
+      <li><a href="#equipa">Equipa</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Fale connosco</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Cooperativa liderada por mulheres · Infulene, Matola</p>
+        <h1>Costuramos <em>sonhos.</em><br>Tecemos autonomia.</h1>
+        <p class="lede">A Cooperativa Wansati Wachonga forma mulheres e jovens em corte e costura, e transforma esse saber em rendimento próprio através da nossa loja social — construindo autonomia económica, uma costura de cada vez.</p>
+        <div class="cta-row">
+          <a href="#pilares" class="btn btn-solid">Conhecer o nosso trabalho</a>
+          <a href="#contacto" class="btn btn-ghost">Fale connosco</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="costura.jpeg" alt="Costureiras da Cooperativa Wansati Wachonga a trabalhar nas máquinas de costura">
+        <div class="tag">NUEL 101075540 · fundada em 2017</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stitch-divider wrap">
+    <svg viewBox="0 0 1180 24" preserveAspectRatio="none"><path class="stitch-path" d="M0 12 L1180 12"/></svg>
+  </div>
+
+  <section id="sobre">
+    <div class="wrap about-grid">
+      <div>
+        <p class="eyebrow">Sobre nós</p>
+        <h2>Uma cooperativa nascida da agulha e da vontade de mudar</h2>
+        <p>A Wansati Wachonga é uma cooperativa liderada por mulheres, com sede em Infulene, Matola. Acreditamos que a autonomia económica das mulheres não é um resultado secundário — é o alicerce sobre o qual se constroem famílias, comunidades e futuros mais seguros.</p>
+        <p>Trabalhamos há mais de uma década com formação técnica em corte e costura, comércio social e projectos comunitários, sempre com o mesmo fio condutor: dar às mulheres as ferramentas para sustentarem-se a si próprias.</p>
+      </div>
+      <ul class="timeline">
+        <li><span class="yr">2014</span>Início do percurso de formação com a CAJP/Cáritas, lançando as bases técnicas do nosso trabalho em corte e costura.</li>
+        <li><span class="yr">2017</span>Fundação da Cooperativa Wansati Wachonga em Infulene, Matola.</li>
+        <li><span class="yr">2018</span>Registo formal da cooperativa (NUEL 101075540 · NUIT 401120491).</li>
+        <li><span class="yr">Parceria contínua</span>Programa PISCCA com a Embaixada de França, incluindo formação de mais de 1.200 jovens em corte e costura na província de Manica.</li>
+        <li><span class="yr">Todos os anos</span>Participação na Feira Internacional de Maputo (FIA) e organização de oficinas anuais no Mês da Mulher.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="stitch-divider wrap">
+    <svg viewBox="0 0 1180 24" preserveAspectRatio="none"><path class="stitch-path" d="M0 12 L1180 12"/></svg>
+  </div>
+
+  <section id="pilares">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">O que fazemos</p>
+        <h2>Dois pilares, um só propósito</h2>
+      </div>
+      <div class="pillars">
+        <div class="pillar-card p1">
+          <img class="pillar-photo" src="aula-modelagem.png" alt="Aula de modelagem e corte na Cooperativa Wansati Wachonga">
+          <h3>Costurando Sonhos</h3>
+          <p>O nosso pilar de formação vocacional, onde mulheres e jovens aprendem corte, costura e artesanato têxtil — capacitando-as com um ofício que gera rendimento para toda a vida.</p>
+          <ul class="pillar-list">
+            <li>Formação técnica em corte e costura</li>
+            <li>Artesanato e produção têxtil</li>
+            <li>Acompanhamento por monitoras experientes</li>
+          </ul>
+        </div>
+        <div class="pillar-card p2">
+          <svg class="pillar-icon" viewBox="0 0 46 46" fill="none"><rect x="10" y="16" width="26" height="20" rx="2" stroke="#241F1A" stroke-width="2"/><path d="M16 16v-2a7 7 0 0 1 14 0v2" stroke="#D98A22" stroke-width="2"/></svg>
+          <h3>Loja Social Pandzula</h3>
+          <p>O braço comercial da cooperativa: uma loja social onde os produtos feitos pelas nossas costureiras chegam ao mercado, transformando formação em rendimento real.</p>
+          <ul class="pillar-list">
+            <li>Venda de peças e acessórios em capulana</li>
+            <li>Rendimento directo para as cooperantes</li>
+            <li>Encomendas e parcerias comerciais</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="impacto">
+    <div class="wrap">
+      <div class="impact-strip">
+        <div class="impact-item"><span class="num">2017</span><span class="lbl">ano de fundação da cooperativa</span></div>
+        <div class="impact-item"><span class="num">1.200+</span><span class="lbl">jovens formadas em corte e costura em Manica, via PISCCA</span></div>
+        <div class="impact-item"><span class="num">2</span><span class="lbl">pilares — formação e comércio social</span></div>
+        <div class="impact-item"><span class="num">2014</span><span class="lbl">início do percurso, com a CAJP/Cáritas</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="parceiros">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Parceiros e apoios</p>
+        <h2>Construído em rede</h2>
+      </div>
+      <div class="partners-row">
+        <span class="partner-badge">Embaixada de França em Moçambique</span>
+        <span class="partner-badge">CAJP / Cáritas Moçambique</span>
+        <span class="partner-badge">Fórum Mulher</span>
+        <span class="partner-badge">Feira Internacional de Maputo (FIA)</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="stitch-divider wrap">
+    <svg viewBox="0 0 1180 24" preserveAspectRatio="none"><path class="stitch-path" d="M0 12 L1180 12"/></svg>
+  </div>
+
+  <section id="equipa">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Quem somos</p>
+        <h2>A equipa por trás da linha</h2>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="avatar" style="background:var(--indigo);">MZ</div>
+          <h4>Mariza</h4>
+          <p class="role">Directora Executiva &amp; Presidente do Conselho de Administração</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar" style="background:var(--magenta);">HM</div>
+          <h4>Henriqueta Henriques Matula</h4>
+          <p class="role">Monitora Principal de Costura &amp; Tesoureira</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar" style="background:var(--ochre);">RV</div>
+          <h4>Roda Baptista Vida Nova</h4>
+          <p class="role">Presidente da Mesa da Assembleia</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar" style="background:var(--green);">HC</div>
+          <h4>Hortência Gaveia Aurélio Cossa</h4>
+          <p class="role">Secretária-Geral</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar" style="background:var(--indigo);">CJ</div>
+          <h4>Carlitos Américo Jafunia</h4>
+          <p class="role">Membro Co-fundador</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stitch-divider wrap">
+    <svg viewBox="0 0 1180 24" preserveAspectRatio="none"><path class="stitch-path" d="M0 12 L1180 12"/></svg>
+  </div>
+
+  <section id="contacto">
+    <div class="wrap contact-grid">
+      <div>
+        <p class="eyebrow">Contacto</p>
+        <h2>Vamos coser algo juntos</h2>
+        <p style="margin-top:16px; max-width:48ch; color:#3a352d;">Quer encomendar uma peça, propor uma parceria ou saber mais sobre as nossas formações? Estamos em Infulene, Matola, e adoraríamos ouvir de si.</p>
+        <div class="social-row">
+          <a class="social-pill" href="https://www.facebook.com/CoopWW/?locale=pt_BR" target="_blank" rel="noopener">Facebook ↗</a>
+          <a class="social-pill" href="https://www.instagram.com/coop_ww/" target="_blank" rel="noopener">Instagram ↗</a>
+        </div>
+      </div>
+      <div class="contact-card">
+        <dl>
+          <dt>Localização</dt>
+          <dd>Infulene, Matola, Moçambique</dd>
+          <dt>NUEL</dt>
+          <dd>101075540</dd>
+          <dt>NUIT</dt>
+          <dd>401120491</dd>
+          <dt>Fundação</dt>
+          <dd>2017 · registo formal em 2018</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Cooperativa Wansati Wachonga — Infulene, Matola, Moçambique</div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', false);
+  }));
+
+  // Re-trigger stitch animation on scroll into view
+  const stitches = document.querySelectorAll('.stitch-path');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.style.animation = 'none';
+        e.target.offsetHeight;
+        e.target.style.animation = 'sew 1.6s ease-out forwards';
+      }
+    });
+  }, {threshold:0.4});
+  stitches.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
